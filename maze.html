@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+	<html>
+		<head>
+			<title>Labyrinth</title>
+			<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+			<link rel="stylesheet" type="text/css" href="labyrinth.css">
+			<script src="https://use.fontawesome.com/efc9cca379.js"></script><!-- Image resources are taken from Font Awesome website. -->
+			<script src="code.js"></script>
+		</head>
+		<body onclick="deselect()">
+			<h1>Labyrinth</h1>
+
+			<table summary="Labyrinth" id="labyrinth" border="1"></table>
+
+			<p>Extra tile:</p>
+			<table summary="Extra Tile" id="tileT" border="1" onclick="pivotExtra()" draggable="true" ondragstart="drag(event)"></table>
+
+			<br>
+
+			<div style="text-align:center;">
+				<button onclick="turn()">End Turn  <i class="fa fa-step-forward" aria-hidden="true"></i></button>
+				<br>
+				<input type="number" size="2" value="7" id="size" min="5" max="21" step="2">
+				<button onclick="reset()">Reset Labyrinth  <i class="fa fa-refresh" aria-hidden="true"></i></button>
+			</div>
+
+			<p>Score:</p>
+
+			<table id="score">
+				<tr>
+					<th><i class="fa fa-rocket" aria-hidden="true"></i></th>
+					<th><i class="fa fa-plane" aria-hidden="true"></i></th>
+					<th><i class="fa fa-motorcycle" aria-hidden="true"></i></th>
+					<th><i class="fa fa-ship" aria-hidden="true"></i></th>
+				</tr>
+				<tr>
+					<td id="score0"></td>
+					<td id="score1"></td>
+					<td id="score2"></td>
+					<td id="score3"></td>
+				</tr>
+			</table>
+			
+			<p id="status-msg"></p>
+
+			<script>
+
+				var labyrinth = new Labyrinth(7);
+				if(localStorage.labyrinth != undefined)
+					labyrinth.fromJSON(localStorage.labyrinth);
+				labyrinth.post();
+
+				function reset(){
+					try{
+						size = document.getElementById("size").value;
+						labyrinth = new Labyrinth(size);
+						labyrinth.post();
+					}
+					catch(err){
+						msg = document.getElementById("status-msg");
+						msg.innerHTML = "Error: " + err;
+					}
+				}
+
+				function turn(){
+					try{
+						labyrinth.endTurn();
+					}
+					catch(err){
+						msg = document.getElementById("status-msg");
+						msg.innerHTML = "Error: " + err;
+					}
+				}
+
+				function pivotExtra(){
+					labyrinth.TileT.pivot90();
+					labyrinth.post();
+				}
+
+				function pushExtra(i,j){
+					try{
+						labyrinth.push(i,j);
+						labyrinth.post();
+					}
+					catch(err){
+						msg = document.getElementById("status-msg");
+						msg.innerHTML = "Error: " + err;
+					}
+				}
+
+				function drag(ev){
+					ev.dataTransfer.setData("text", "");
+				}
+
+				function allowDrop(ev){
+					ev.preventDefault();
+				}
+
+				function drop(ev, i, j){
+					ev.preventDefault();
+					pushExtra(i, j);
+				}
+			</script>
+		</body>
+	</html>

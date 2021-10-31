@@ -1,0 +1,52 @@
+body{
+	background-color: gray;
+}
+
+h1{
+	text-align: center;
+	color: white;
+}
+
+table{
+	border-style: inset;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#score, #score td, #score th{
+	text-align: center;
+	
+	border: dashed;
+	border-collapse: collapse;
+	
+	font-size: 125%;
+	
+	table-layout: fixed;
+	width: 20%
+}
+
+table, td, th, tr{
+	border-spacing: 0;
+	border-style: none
+}
+
+p{
+	text-align: center;
+	color: white;
+}
+
+button{
+	border-color: gray;
+	border-radius: 12px;
+	padding: 8px 16px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+
+
+#status-msg{
+	color: white;
+	background-color: red;
+	text-align: center;
+}
